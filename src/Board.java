@@ -30,14 +30,14 @@ public class Board {
                 .filter(move -> locationFree(move))
                 .map(move -> positions.set(move, symbol))
                 .findFirst();
-        madeMove.ifPresent(o -> {
-            printBoard();
-        });
+//        madeMove.ifPresent(o -> {
+//            printBoard();
+//        });
 
         return madeMove.isPresent();
     }
 
-    private boolean locationFree(int movePosition) {
+    public boolean locationFree(int movePosition) {
         return positions.get(movePosition) == " ";
     }
 
@@ -46,6 +46,7 @@ public class Board {
     }
 
     public Optional emptyCell(int move) {
-        return Stream.of(positions.get(move)).filter(symbol -> symbol.equals(" ") ).findFirst();
+        return Stream.of(positions.get(move))
+                .filter(symbol -> symbol.equals(" ") ).findFirst();
     }
 }

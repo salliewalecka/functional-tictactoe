@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Optional;
 
 import static org.mockito.Matchers.contains;
 import static org.mockito.Mockito.*;
@@ -31,6 +32,7 @@ public class GameTest {
         when(reader.readLine()).thenReturn(DEFAULT_MOVE);
         when(board.notFilled()).thenReturn(true).thenReturn(false);
         when(board.updateBoard(anyString(), anyInt())).thenReturn(true);
+        when(board.emptyCell(anyInt())).thenReturn(Optional.of(" "));
 
         game.start();
 
@@ -42,6 +44,7 @@ public class GameTest {
         when(reader.readLine()).thenReturn(DEFAULT_MOVE);
         when(board.notFilled()).thenReturn(true).thenReturn(false);
         when(board.updateBoard(anyString(), anyInt())).thenReturn(true);
+        when(board.emptyCell(anyInt())).thenReturn(Optional.of(" "));
 
         game.start();
 
@@ -54,6 +57,7 @@ public class GameTest {
         when(reader.readLine()).thenReturn(DEFAULT_MOVE).thenReturn("4");
         when(board.notFilled()).thenReturn(true).thenReturn(true).thenReturn(false);
         when(board.updateBoard(anyString(), anyInt())).thenReturn(true);
+        when(board.emptyCell(anyInt())).thenReturn(Optional.of(" "));
 
         game.start();
 

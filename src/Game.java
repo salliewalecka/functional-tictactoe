@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,8 @@ public class Game {
     public void start() {
         while (board.notFilled()) {
             togglePlayer();
-            int move = promptMove();
-            makeMove(player, move);
+            int position = promptMove();
+            makeMove(player, position);
             board.printBoard();
         }
         printStream.println("Game Is A Draw");
@@ -41,23 +42,27 @@ public class Game {
             move = Integer.parseInt(response);
         } catch (IOException e) {
         }
-        return move;
+        return move - 1;
     }
 
 
-    private void makeMove(String symbol, int move) {
-        Optional getCell = board.emptyCell(move - 1);
+    private void makeMove(String symbol, int position) {
+
+        Optional getCell = board.emptyCell(position);
         getCell.orElseGet(() -> {
             printStream.println("Location already taken");
-            makeMove(symbol, promptMove());
+            int newPosition = promptMove();
+            makeMove(symbol, newPosition);
             return null;
         });
-        board.updateBoard(symbol, move - 1);
+        board.updateBoard(symbol, position);
     }
 
     private void togglePlayer() {
+        Predicate<String> isNotCurrentPlayer = x -> !x.equals(this.player);
+
         player = players.stream()
-                .filter(x -> !x.equals(this.player))
-                .collect(Collectors.joining());
+                .filter(isNotCurrentPlayer)
+                .collect(Collectors.joining(""));
     }
 }
